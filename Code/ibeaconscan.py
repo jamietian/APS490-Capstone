@@ -3,6 +3,7 @@ from beacontools import BeaconScanner, IBeaconFilter
 prevrssi = []
 import socket
 import csv
+from datetime import datetime
 
 csv_columns = ['Minor','RSSI','Average_RSSI','Distance','time']
 d = time.localtime()
@@ -27,10 +28,10 @@ def callback(bt_addr, rssi, packet, additional_info):
         avg_rssi = (sum(prevrssi)-min_rssi-max_rssi)/(len(prevrssi)-2)
 
         dist = getdistance(avg_rssi,txpower)
-        t = time.localtime()
-        t = time.strftime("%m/%d/%Y, %H:%M:%S.%f", t)
+        t = datetime.now().strftime("%H:%M:%S.%f") 
+        #t = time.strftime("%m/%d/%Y, %H:%M:%S%3", t)
+        #t = datetime.strftime("%H:%M:%S.%f", t) 
         minor_num = additional_info['minor']
-
         data['Minor'] = minor_num
         data['RSSI'] = rssi
         data['Average_RSSI'] = avg_rssi
